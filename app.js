@@ -3,10 +3,9 @@ const express = require("express");
 const fileUpload = require("express-fileupload");
 // const session = require("express-session");
 // const cookieParser = require("cookie-parser");
-const flash = require("connect-flash");
+// const flash = require("connect-flash");
 const routes = require("./server/routes/recipeRoutes");
 const pools = require("./Server/models/database");
-
 const app = express();
 const port = 3000;
 
