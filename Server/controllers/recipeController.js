@@ -91,6 +91,42 @@ exports.exploreRecipesById = async (req, res) => {
   }
 };
 
+exports.submitRecipe = async (req, res) => {
+  //const params = req.body;
+  //console.log(req.body);
+  // console.log(req.body.categoryName);
+  // console.log(req.body.createdAt);
+  try {
+    const recipe = await pool.query(
+      `INSERT INTO recipesharing.recipestable (categoryName, recipeTitle, recipeIngredients, recipeDescription, recipeImages ) VALUES (?,?,?,?,?)`,
+      Object.values(req.body),
+      (err, rows) => {
+        if (!err) {
+          res.status(200).send({ message: "recipe successfully submitted" });
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  } catch (error) {
+    res.status(500).send({ message: error.message || "Error Occured" });
+  }
+};
+
+exports.deleteRecipesById = async (req, res) => {
+  try {
+    const categories = await pool.query(
+      `DELETE FROM recipesharing.recipestable WHERE recipeID = ?`,
+      [req.params.id],
+      (err, rows) => {
+        res.status(200).send({ message: "Recipes successfully deleted" });
+      }
+    );
+  } catch (error) {
+    res.status(500).send({ message: error.message || "Error Occured" });
+  }
+};
+
 // exports.submitCategories = async (req, res) => {
 //   try {
 //     const params = req.body
