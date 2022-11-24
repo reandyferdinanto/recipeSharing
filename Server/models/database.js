@@ -1,12 +1,10 @@
-const mysql = require("mysql");
 require("dotenv").config();
+const mysql = require("mysql2");
 
-const pool = mysql.createPool({
-  connectionLimit: 10,
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
-});
+const connection = mysql.createConnection(
+  'mysql://srsfue0pod18mw638trg:pscale_pw_BCD5rUWqkosWUb7IGNokYajVRxlx6dSnGTFxUpd3X3b@us-east.connect.psdb.cloud/recipe-sharing--app?ssl={"rejectUnauthorized":true}'
+);
+console.log("Connected to PlanetScale!");
+// connection.end();
 
-module.exports = pool;
+module.exports = connection;
