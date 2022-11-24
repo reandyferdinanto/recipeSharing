@@ -1,4 +1,8 @@
-﻿# recipeSharing
+![logo](/jpgFolder/recipeSharingLogo.jpg)
+# Recipe Sharing
+
+## Description
+Recipe Sharing is an API which handling GET, POST, PUT, and DELETE for categories of recipe & recipe itself.
 
 ## Installing Package
 ``` node.js
