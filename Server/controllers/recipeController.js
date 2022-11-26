@@ -15,7 +15,7 @@ const connection = require("../models/database");
 //   }
 // };
 
-//Coba coba
+//GET categories
 exports.categories = async (req, res) => {
   try {
     const queryProducts = "SELECT * FROM recipecategories";
@@ -32,6 +32,64 @@ exports.categories = async (req, res) => {
   }
 };
 
+// POST Categories
+exports.submitCategories = async (req, res) => {
+  try {
+    if (req.body.categoryName != "") {
+      const { categoryName } = req.body;
+      const catQuery = `INSERT INTO recipecategories (categoryName)
+   VALUES ('${categoryName}')`;
+      const selectSql = `SELECT categoryName FROM recipecategories WHERE categoryName = "${categoryName}"`;
+      const selects = connection.query(selectSql, (err, result) => {
+        if (result && result.length >= 1) {
+          return res.status(400).json({
+            message: `Category Name : ${categoryName}  already registered`,
+          });
+        } else {
+          const query = connection
+            .promise()
+            .query(catQuery)
+            .then(([rows]) => {
+              res.status(200).send({
+                message: `${categoryName} is submited`,
+              });
+            });
+          console.log({ message: `${categoryName} is submited` });
+        }
+      });
+    }
+  } catch (err) {
+    res.json({
+      message: "Please Verify your Account",
+    });
+    console.log(err);
+  }
+};
+
+//Coba POST simpleCat
+exports.simpleCat = async (req, res) => {
+  try {
+    const { categoryName } = req.body;
+    const prodQuery = `INSERT INTO recipecategories (categoryName)
+   VALUES ("${categoryName}")`;
+    const query = await connection
+      .promise()
+      .query(prodQuery)
+      .then(([rows]) => {
+        res.status(200).send({
+          message: `${categoryName} is submited`,
+        });
+      });
+    console.log({ message: `${categoryName} is submited` });
+  } catch (err) {
+    res.json({
+      message: "Please Verify your Account",
+    });
+    console.log(err);
+  }
+};
+
+// GET Recipes
 exports.recipes = async (req, res) => {
   try {
     const queryProducts = "SELECT * FROM recipestable";
@@ -47,6 +105,7 @@ exports.recipes = async (req, res) => {
     });
   }
 };
+
 //--------------------------------------------------------------
 
 // exports.exploreCategoriesById = async (req, res) => {
