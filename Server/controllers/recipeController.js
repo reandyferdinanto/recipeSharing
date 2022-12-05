@@ -1,6 +1,6 @@
 const connection = require("../models/database");
 
-// using try catch
+// Select All categories of recipes
 
 // exports.categories = async (req, res) => {
 //   try {
@@ -27,17 +27,35 @@ exports.categories = async (req, res) => {
       });
   } catch (err) {
     res.json({
+      message: "error aja",
+    });
+  }
+};
+
+// Select Categories by Id
+exports.exploreCategoriesById = async (req, res) => {
+  try {
+    // const { categoryName } = req.body;
+    const querySelbyId = `SELECT * FROM recipecategories WHERE id = ?`;
+    const SelbyId = await connection
+      .promise()
+      .query(querySelbyId, [req.params.id])
+      .then((rows, result) => {
+        res.send(rows[0]);
+      });
+  } catch (err) {
+    res.json({
       message: "Please Verify your Account",
     });
   }
 };
 
-// POST Categories
+// POST Categories of the recipes
 exports.submitCategories = async (req, res) => {
   try {
     if (req.body.categoryName != "") {
       const { categoryName } = req.body;
-      const catQuery = `INSERT INTO recipecategories (categoryName)
+      const InsCatQuery = `INSERT INTO recipecategories (categoryName)
    VALUES ('${categoryName}')`;
       const selectSql = `SELECT categoryName FROM recipecategories WHERE categoryName = "${categoryName}"`;
       const selects = connection.query(selectSql, (err, result) => {
@@ -48,7 +66,7 @@ exports.submitCategories = async (req, res) => {
         } else {
           const query = connection
             .promise()
-            .query(catQuery)
+            .query(InsCatQuery)
             .then(([rows]) => {
               res.status(200).send({
                 message: `${categoryName} is submited`,
@@ -66,30 +84,7 @@ exports.submitCategories = async (req, res) => {
   }
 };
 
-//Coba POST simpleCat
-exports.simpleCat = async (req, res) => {
-  try {
-    const { categoryName } = req.body;
-    const prodQuery = `INSERT INTO recipecategories (categoryName)
-   VALUES ("${categoryName}")`;
-    const query = await connection
-      .promise()
-      .query(prodQuery)
-      .then(([rows]) => {
-        res.status(200).send({
-          message: `${categoryName} is submited`,
-        });
-      });
-    console.log({ message: `${categoryName} is submited` });
-  } catch (err) {
-    res.json({
-      message: "Please Verify your Account",
-    });
-    console.log(err);
-  }
-};
-
-// GET Recipes
+// Select All Recipes
 exports.recipes = async (req, res) => {
   try {
     const queryProducts = "SELECT * FROM recipestable";
@@ -98,6 +93,24 @@ exports.recipes = async (req, res) => {
       .query(queryProducts)
       .then(([rows]) => {
         res.status(200).send(rows);
+      });
+  } catch (err) {
+    res.json({
+      message: "Please Verify your Account",
+    });
+  }
+};
+
+//Select recipes by categories
+exports.exploreRecipesById = async (req, res) => {
+  try {
+    // const { categoryName } = req.body;
+    const querySelbyId = `SELECT * FROM recipestable WHERE recipeID = ?`;
+    const SelbyId = await connection
+      .promise()
+      .query(querySelbyId, [req.params.id])
+      .then((rows, result) => {
+        res.send(rows[0]);
       });
   } catch (err) {
     res.json({
