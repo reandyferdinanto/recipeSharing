@@ -1,4 +1,4 @@
-![logo](/jpgFolder/recipeSharingLogo.jpg)
+![logo](/jpgFolder/recipeSharing.jpg)
 # Recipe Sharing
 
 ## Description
