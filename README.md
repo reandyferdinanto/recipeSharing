@@ -14,8 +14,10 @@ $ npm install --save-dev nodemon
 ```powershell
 $ npm start
 ```
-## How to Start in your Browser
-https://finalproject-recipesharing.fly.dev
+
+## Running the app with postman
+here is a postman documentation link for RecipeSharing app
+https://documenter.getpostman.com/view/23401470/2s8Z6yXCpr
 
 for the categories
 https://finalproject-recipesharing.fly.dev/categories
